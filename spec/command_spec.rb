@@ -440,6 +440,10 @@ module VirtualFileSystem
             cmd.put("/file#{n}", store_id)
           end
         end
+
+        Timecop.freeze(time + 18) do
+          cmd.mkdir("/a/b/c")
+        end
       end
 
       context "when not exceeding limit" do
@@ -454,13 +458,16 @@ module VirtualFileSystem
 
       context "when exceeding limit" do
         let(:limit)      {20}
-        let(:new_cursor) {File.get("/file16").last_modified.to_time}
+        let(:new_cursor) {File.get("/a/b/c").last_modified.to_time}
         
         its([:new_cursor]) {should eq new_cursor}
         its([:has_more])   {should be false}
-        it {expect(subject[:entries].size).to be 16}
+
+        it {expect(subject[:entries].size).to be 19}
         it {expect(subject[:entries][0][:path]).to  eq "/file1"}
-        it {expect(subject[:entries][-1][:path]).to eq "/file16"}
+        it {expect(subject[:entries][0][:is_dir]).to  be false}
+        it {expect(subject[:entries][-1][:path]).to eq "/a/b/c"}
+        it {expect(subject[:entries][-1][:is_dir]).to be true}
       end
     end
   end
