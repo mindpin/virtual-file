@@ -2,9 +2,9 @@ module VirtualFileSystem
   class Command
     attr_reader :creator, :bucket
 
-    def initialize(creator, bucket)
-      @creator = creator
+    def initialize(bucket, creator)
       @bucket  = bucket
+      @creator = creator
     end
 
     # make target directory according to path
@@ -216,5 +216,6 @@ module VirtualFileSystem
   end
 
   def self.Command(bucket, creator)
+    Command.new(bucket, creator)
   end
 end

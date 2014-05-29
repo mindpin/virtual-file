@@ -4,7 +4,7 @@ module VirtualFileSystem
   describe Command do
     let(:creator)  {DummyCreator}
     let(:bucket)   {:bucket}
-    let(:cmd)      {Command.new(creator, bucket)}
+    let(:cmd)      {Command.new(bucket, creator)}
     let(:path)     {"/a/b/c"}
     let(:store_id) {SecureRandom.hex}
 
@@ -470,5 +470,13 @@ module VirtualFileSystem
         it {expect(subject[:entries][-1][:is_dir]).to be true}
       end
     end
+  end
+
+  describe ".Command(bucket, creator)" do
+    let(:creator)  {DummyCreator}
+    let(:bucket)   {:bucket}
+    subject {VirtualFileSystem::Command(bucket, creator)}
+
+    it {should be_a Command}
   end
 end
