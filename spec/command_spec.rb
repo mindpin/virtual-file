@@ -183,6 +183,13 @@ module VirtualFileSystem
 
       before {cmd.mkdir(from)}
 
+      context "when `to` is a root path" do
+        let(:to) {"/d"}
+
+        it {expect{mv1}.to change {file.reload.name}.from("c").to("d")}
+        it {expect{mv1}.to change {file.reload.dir_id}.to(nil)}
+      end
+
       context "when `to` does not exist" do
         it {expect{mv1}.to change {file.reload.name}.from("c").to("f")}
         it {expect{mv1}.to change {file.reload.dir.name}.from("b").to("e")}

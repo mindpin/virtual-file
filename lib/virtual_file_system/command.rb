@@ -213,7 +213,7 @@ module VirtualFileSystem
         :store_id   => store_id,
         :creator_id => creator.id,
         :bucket     => bucket,
-      }.reject {|_, v| v.nil?}
+      }.reject {|k, v| v.nil? && k != :dir_id}
     end
   end
 
