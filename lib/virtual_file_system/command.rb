@@ -161,16 +161,18 @@ module VirtualFileSystem
     # @param limit [Integer] limit length of returned entries
     # @return [Hash] delta info hash
     def delta(cursor, limit=100)
-      files = scope(:with_removed => true).where(:last_modified.gt => cursor)
-                                          .order_by(:last_modified => :asc)
-                                          .limit(limit)
-                                          .map(&:delta_attributes)
+      criteria = scope(:with_removed => true)
+
+      files = criteria.where(:last_modified.gt => cursor)
+                      .order_by(:last_modified => :asc)
+                      .limit(limit)
+                      .map(&:delta_attributes)
 
       new_cursor = files.last[:last_modified]
 
       {
         :new_cursor => new_cursor,
-        :has_more   => scope.where(:last_modified.gt => new_cursor).any?,
+        :has_more   => criteria.where(:last_modified.gt => new_cursor).any?,
         :entries    => files
       }
     end
