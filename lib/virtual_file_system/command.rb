@@ -1,15 +1,10 @@
 module VirtualFileSystem
   class Command
-    attr_reader :creator, :bucket, :scope
+    attr_reader :creator, :bucket
 
     def initialize(creator, bucket)
       @creator = creator
       @bucket  = bucket
-    end
-
-    def scope(with_removed: false)
-      criteria = with_removed ? File.unscoped : File
-      criteria.where(:bucket => bucket, :creator_id => creator.id)
     end
 
     # make target directory according to path
@@ -181,6 +176,11 @@ module VirtualFileSystem
     end
 
     private
+
+    def scope(with_removed: false)
+      criteria = with_removed ? File.unscoped : File
+      criteria.where(:bucket => bucket, :creator_id => creator.id)
+    end
 
     def resolve_conflict(params, conflict_file, mode, &target_block)
       target = target_block.call(params)
