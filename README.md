@@ -8,15 +8,11 @@ RubyGem 实现虚拟文件夹逻辑
 
 Add this line to your application's Gemfile:
 
-    gem 'virtual_file_system', :github => "mindpin/virtual-file", :tag => "v0.0.1"
+    gem 'virtual_file_system', :github => "mindpin/virtual-file", :tag => "v0.0.3"
 
 And then execute:
 
     $ bundle
-
-Or install it yourself as:
-
-    $ gem install virtual_file_system
 
 
 ## Contributing

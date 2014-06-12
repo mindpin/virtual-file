@@ -6,6 +6,7 @@ module VirtualFileSystem
     let(:bucket)   {:bucket}
     let(:cmd)      {Command.new(bucket, creator)}
     let(:path)     {"/a/b/c"}
+    let(:value)    {"some value"}
     let(:store_id) {SecureRandom.hex}
 
     before {Bucket.new(:bucket, :store => :dummy)}
@@ -44,6 +45,13 @@ module VirtualFileSystem
       let(:put3)  {cmd.put(path, store_id, :mode => :rename)}
       let(:put3a) {cmd.put(path, store_id, :mode => :rename)}
       let(:put3b) {cmd.put(path, store_id, :mode => :rename)}
+      let(:put4)  {cmd.put(path, store_id) {|f| f.ext_field = value}}
+
+      context "when calling with block" do
+        subject {put4}
+
+        its(:ext_field) {should eq value}
+      end
 
       context "when file does not exist" do
         subject {put1}
@@ -180,8 +188,15 @@ module VirtualFileSystem
       let(:mv1)  {cmd.mv(from, to)}
       let(:mv2)  {cmd.mv(from, to, :mode => :force)}
       let(:mv3)  {cmd.mv(from, to, :mode => :rename)}
+      let(:mv4)  {cmd.mv(from, to) {|f| f.ext_field = value}}
 
       before {cmd.mkdir(from)}
+
+      context "when calling with block" do
+        subject {mv4}
+
+        its(:ext_field) {should eq value}
+      end
 
       context "when `to` is a root path" do
         let(:to) {"/d"}
@@ -249,8 +264,15 @@ module VirtualFileSystem
       let(:cp1)  {cmd.cp(from, to)}
       let(:cp2)  {cmd.cp(from, to, :mode => :force)}
       let(:cp3)  {cmd.cp(from, to, :mode => :rename)}
+      let(:cp4)  {cmd.cp(from, to) {|f| f.ext_field = value}}
 
       before {cmd.mkdir(from)}
+
+      context "when calling with block" do
+        subject {cp4}
+
+        its(:ext_field) {should eq value}
+      end
 
       context "when `to` does not exist" do
         subject {cp1}

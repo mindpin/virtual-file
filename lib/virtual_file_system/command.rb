@@ -24,7 +24,7 @@ module VirtualFileSystem
     # @param path [String] path name
     # @param mode [Symbol] conflict solution modes: `:force` or `:rename`
     # @return [VirtualFileSystem::File] File model for target file
-    def put(path, store_id, mode: :default)
+    def put(path, store_id, mode: :default, &block)
       dir = Utils.dir(path).empty? ? nil : self.mkdir(Utils.dir path)
 
       params = make_params :dir_id   => dir.try(:id),
@@ -35,7 +35,9 @@ module VirtualFileSystem
       dest = scope.where(params).first
 
       resolve_conflict(params, dest, mode) do |params, rename|
-        File.new params
+        file = File.new params
+        block.call(file) if block_given?
+        file
       end
     end
 
@@ -69,7 +71,7 @@ module VirtualFileSystem
     # @param to [String] path to the destination
     # @param mode [Symbol] conflict solution modes: `:force` or `:rename`
     # @return [VirtualFileSystem::File] the moved file
-    def mv(from, to, mode: :default)
+    def mv(from, to, mode: :default, &block)
       target_file = scope.get(from)
       InvalidStore.raise! {!target_file}
 
@@ -82,6 +84,7 @@ module VirtualFileSystem
 
       resolve_conflict(params, dest_file, mode) do |params, rename|
         target_file.update_attributes params;
+        block.call(target_file) if block_given?
         target_file
       end
     end
@@ -91,7 +94,7 @@ module VirtualFileSystem
     # @param to [String] path to the destination
     # @param mode [Symbol] conflict solution modes: `:force` or `:rename`
     # @return [VirtualFileSystem::File] copy of the target file
-    def cp(from, to, mode: :default)
+    def cp(from, to, mode: :default, &block)
       target_file = scope.get(from)
       InvalidStore.raise! {!target_file}
 
@@ -105,6 +108,7 @@ module VirtualFileSystem
       resolve_conflict(params, dest_file, mode) do |params, rename|
         copy = File.new target_file.raw_attributes
         copy.update_attributes params
+        block.call(copy) if block_given?
         copy
       end
     end

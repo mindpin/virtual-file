@@ -44,6 +44,12 @@ module DummyCreator
   end
 end
 
+module VirtualFileSystem
+  class File
+    field :ext_field, :type => String
+  end
+end
+
 RSpec.configure do |config|
   config.after(:each) do
     Mongoid.purge!
