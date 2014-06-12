@@ -16,6 +16,10 @@ module VirtualFileSystem
       unscoped.where(:is_removed => true).order_by(:last_modified => :desc)
     }
 
+    scope :by_bucket, proc {|bucket|
+      where(:bucket => bucket)
+    }
+
     default_scope proc {
       where(:is_removed => false).order_by(:name => :asc)
     }

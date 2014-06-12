@@ -1,3 +1,9 @@
+## 0.0.4
+
+Features:
+
+  - add `by_bucket(bucket_name)` scope on `File`
+
 ## 0.0.3
 
 Features:
