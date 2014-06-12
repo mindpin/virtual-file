@@ -2,7 +2,8 @@
 
 Features:
 
-  - add `by_bucket(bucket_name)` scope on `File`
+  - add `::by_bucket(bucket_name)` scope on `File`
+  - add `#file_info`, `#get_uri` on `Command`
 
 ## 0.0.3
 

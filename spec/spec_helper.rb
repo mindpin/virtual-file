@@ -23,7 +23,7 @@ module DummyVFSModule
 
     {
       :type  => :disk,
-      :value => "/physical/path/to/file"
+      :value => "/physical/path/to/file.png"
     }
   end
 

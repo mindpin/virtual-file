@@ -181,6 +181,24 @@ module VirtualFileSystem
       }
     end
 
+    # get uri info hash of the target file
+    # @param path [String] path to target file
+    # return [Hash] uri info hash
+    def get_uri(path)
+      file = scope.get(path)
+      InvalidPath.raise! {!file}
+      file.uri
+    end
+    
+    # get file info hash of the target file
+    # @param path [String] path to target file
+    # return [Hash] file info hash
+    def file_info(path)
+      file = scope.get(path)
+      InvalidPath.raise! {!file}
+      file.info
+    end
+
     private
 
     def scope(with_removed: false)

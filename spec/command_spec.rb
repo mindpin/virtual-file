@@ -499,6 +499,28 @@ module VirtualFileSystem
         it {expect(subject[:entries][-1][:is_dir]).to be true}
       end
     end
+
+    describe "#get_uri(path)" do
+      let(:path)    {"/a/b/c.png"}
+      let(:get_uri) {cmd.get_uri(path)}
+
+      subject {get_uri}
+      before  {cmd.put(path, store_id)}
+
+      its([:value]) {should eq "/physical/path/to/file.png"}
+      its([:type])  {should eq :disk}
+    end
+
+    describe "#file_info(path)" do
+      let(:path)      {"/a/b/c.png"}
+      let(:file_info) {cmd.file_info(path)}
+
+      subject {file_info}
+      before  {cmd.put(path, store_id)}
+
+      its([:size])      {should be 1234}
+      its([:mime_type]) {should eq "image/png"}
+    end
   end
 
   describe ".Command(bucket, creator)" do

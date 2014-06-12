@@ -96,7 +96,7 @@ module VirtualFileSystem
 
     def uri
       return nil if self.is_dir
-      get_bucket.get_uri(self.store_id)
+      get_bucket.store.get_uri(self.store_id)
     end
 
     def self.get(path, include_remove: false)
