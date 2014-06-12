@@ -6,7 +6,7 @@ module VirtualFileSystem
     #     which then get evaluated according to module name
     def initialize(name)
       @name        = name.to_sym
-      @module_name = "#{self.name.capitalize}VFSModule"
+      @module_name = "#{self.name.to_s.camelize}VFSModule"
 
       extend self.backend
     end
