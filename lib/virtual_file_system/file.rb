@@ -103,6 +103,10 @@ module VirtualFileSystem
       end
     end
 
+    def self.files_count
+      self.where(:dir_id => nil).pluck(:files_count).join(:+)
+    end
+
     protected
 
     def path_tokens(tokens = [])
