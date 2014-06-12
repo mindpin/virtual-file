@@ -56,9 +56,10 @@ module VirtualFileSystem
       context "when file does not exist" do
         subject {put1}
 
-        its(:name)      {should eq "c.png"}
-        its(:is_dir)    {should be false}
-        its("dir.name") {should eq "b"}
+        its(:name)       {should eq "c.png"}
+        its(:creator_id) {should eq creator.id}
+        its(:is_dir)     {should be false}
+        its("dir.name")  {should eq "b"}
 
         context "when dir exists" do
           before {cmd.mkdir(Utils.dir path)}

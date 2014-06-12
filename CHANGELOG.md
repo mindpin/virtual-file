@@ -1,3 +1,9 @@
+## 0.0.5
+
+Bugfixes:
+
+  - fix type of `creator_id` on `File`
+
 ## 0.0.4
 
 Features:

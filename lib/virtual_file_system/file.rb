@@ -6,7 +6,7 @@ module VirtualFileSystem
     field :store_id,      :type => String
     field :name,          :type => String
     field :is_dir,        :type => Boolean,  :default => false
-    field :creator_id,    :type => Integer
+    field :creator_id,    :type => String
     field :last_modified, :type => DateTime, :default => proc {Time.now}
     field :is_removed,    :type => Boolean,  :default => false
     field :files_count,   :type => Integer,  :default => 0
